@@ -1,0 +1,43 @@
+title 有时候老年人松紧腰牛仔裤 #直通车标题
+name 有时候中老年女装春装妈妈装休闲裤老年人松紧腰大码牛仔裤女裤 #商品标间题 当为直通车推广时，name显示为直通车标题
+itemNumId 22084835836 #商品数字ID
+category 50000852 #类目ID
+commentCount 9  #评论数量
+url //detail.m.tmall.com/item.htm?id=22084835836&abtest=19&rn=25862be289171de132627e56c5f303c5&sid=e418c191b3ae3906663fde7a7869384c
+favoriteUrl //fav.m.taobao.com/favorite/to_collection.htm?abtest=19&sid=e418c191b3ae3906663fde7a7869384c&itemNumId=22084835836
+pic_path http://g.search1.alicdn.com/img/bao/uploaded/i4/i2/TB17UHMHpXXXXXGXVXXXXXXXXXX_!!0-item_pic.jpg_60x60.jpg
+img2 //gw3.alicdn.com/bao/uploaded/i2/TB17UHMHpXXXXXGXVXXXXXXXXXX_!!0-item_pic.jpg
+
+area 武汉 #地区
+location 湖北 武汉
+sellerLoc 湖北 武汉
+nick 有时候旗舰店 #用户昵称
+userType 1   #用户类型，1为商城，0为集市
+userId 715228871 #用户数字ID
+
+isP4p false  #是否直通车
+sold 1      #销量
+act 1       #销量
+zkType 品牌促销 #活动标签
+coinLimit 0   #淘金币抵扣 百分之5 显示为500
+originalPrice 218.00 #标准价格
+price 109.00  #实际价格
+priceWap 109.00  #手机端价格，商城有时会有促销
+fastPostFee 15.00  #快递费
+freight 15.00     #运输费
+shipping 15.00    #邮费
+
+
+isB2c 1
+iconList
+auctionType b
+item_id 22084835836
+tItemType nt_auction
+isMobileEcard false
+priceColor #000000
+icons []
+iswebp
+type fixed
+zkGroup 1
+wwimUrl //im.m.taobao.com/ww/ad_ww_dialog.htm?item_num_id=22084835836&amp;to_user=09DKsbryxuy9orXq
+previewUrl //a.m.taobao.com/ajax/pre_view.do?itemId=22084835836&abtest=19&sid=e418c191b3ae3906663fde7a7869384c
