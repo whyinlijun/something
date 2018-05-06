@@ -11,10 +11,12 @@ import os
 root=tkinter.Tk()
 root.title('itemGUI')
 save_directory=StringVar()
-save_directory.set('d:\\淘宝抓图')
+save_numid = StringVar()
+save_title = StringVar()
+save_directory.set('/home/yinsir')
 
 def get_directory_name():
-    save_directory.set(tkinter.filedialog.askdirectory(initialdir='d:\\淘宝抓图'))
+    save_directory.set(tkinter.filedialog.askdirectory(initialdir='/home/yinsir/harddisk/taobao_image'))
     return
 
 def get_file_name():
@@ -22,6 +24,10 @@ def get_file_name():
 
 def getimage():
     print('getimage')
+    id = save_numid.get()
+    url = "https://item.taobao.com/item.htm?id={}".format(id)
+    dir_name = save_directory.get()
+    saveimage.save_main(url, save_title.get(), 'all',dir_name)
 
 def pjimage():
     pic_path=save_directory.get()
@@ -42,10 +48,10 @@ fram2.grid(row=1)
 
 
 Label(fram1,text='商品ID:').grid(row=1,column=0,padx=10)
-num_id=Entry(fram1)
+num_id=Entry(fram1 , textvariable = save_numid)
 num_id.grid(row=1,column=1,padx=10,columnspan=2,sticky=E)
 Label(fram1,text='商品命名:').grid(row=2,column=0,padx=10,pady=10)
-num_name=Entry(fram1)
+num_name=Entry(fram1,textvariable=save_title)
 num_name.grid(row=2,column=1,padx=10,columnspan=2,sticky=E)
 Label(fram1,text='目录位置:').grid(row=0,column=0,padx=10,pady=10)
 dir_label=Entry(fram1,textvariable=save_directory,width=15,state='readonly')

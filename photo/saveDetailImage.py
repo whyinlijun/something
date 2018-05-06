@@ -64,9 +64,9 @@ def save_image(path,image_name,image_list,flag='detail'):
                 ex_name='jpg'
             strxuhao=str(image_xuhao) if image_xuhao>=10 else '0'+str(image_xuhao)
             if flag=='detail':
-                imgfile=open(path+"/"+image_name+'/'+image_name+'_'+strxuhao+'.'+ex_name,'wb')
+                imgfile=open(path+'/'+image_name+'/'+image_name+'_'+strxuhao+'.'+ex_name,'wb')
             else:
-                imgfile=open(path+"/"+image_name+'/head/'+image_name+'_big_'+strxuhao+'.'+ex_name,'wb')
+                imgfile=open(path+'/'+image_name+'/head/'+image_name+'_big_'+strxuhao+'.'+ex_name,'wb')
             imgfile.write(image)
             imgfile.close()
             print('Image NO.%s is download' %str(image_xuhao))
@@ -78,9 +78,10 @@ def save_html(filename,content):
         fs.write(content)
     return
 
-def save_main(url,image_name='default',flag='all'):
+def save_main(url,image_name='default',flag='all',path=''):
     web_data=getUrl(url)
-    path="/home/yinsir/下载/淘宝图片"
+    if path == '':
+        path="/home/yinsir/下载/淘宝图片/"
     if os.path.exists(path):
         pass
     else:
