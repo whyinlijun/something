@@ -23,7 +23,17 @@ def get_good_image_url(web_data):
     for i in g.split(','):
         image_list.append('http:'+i[1:-1])
     return image_list
-    
+
+def get_property_image_url(web_data):
+    '''获取sku图片'''
+    re_compile = re.compile('background:url\((.*)\)')
+    f = re.findall(re_compile,web_data)
+    if f:
+        image_list = ['http:'+ url[:-10] for url in f]
+    else:
+        image_list = []
+    return image_list
+
 def get_detail_image_url(web_data):
     re_compile=re.compile(r"location.protocol.*?,",re.S)
     url_compile=re.compile("\'(.*?)\'")
@@ -44,8 +54,8 @@ def make_dir(path,subdir):
     return
     
 def save_image(path,image_name,image_list,flag='detail'):
-    if flag!='detail':
-        make_dir(path + '/' + image_name, 'head')
+    if flag != 'detail':
+        make_dir(path + '/' + image_name, flag)
     image_xuhao=1
     ex_compile='(jpg|gif|jpeg|bmp|png)'
     for i in image_list:
@@ -66,7 +76,7 @@ def save_image(path,image_name,image_list,flag='detail'):
             if flag=='detail':
                 imgfile=open(path+'/'+image_name+'/'+image_name+'_'+strxuhao+'.'+ex_name,'wb')
             else:
-                imgfile=open(path+'/'+image_name+'/head/'+image_name+'_big_'+strxuhao+'.'+ex_name,'wb')
+                imgfile=open(path+'/'+image_name+'/'+flag+'/'+image_name+'_big_'+strxuhao+'.'+ex_name,'wb')
             imgfile.write(image)
             imgfile.close()
             print('Image NO.%s is download' %str(image_xuhao))
@@ -89,12 +99,15 @@ def save_main(url,image_name='default',flag='all',path=''):
     make_dir(path,image_name)
     #判断保存哪一片图片
     if flag=="all":
-        save_image(path,image_name,get_good_image_url( web_data),flag='nodetail')
+        save_image(path,image_name,get_good_image_url( web_data),flag='goods')
+        save_image(path, image_name, get_property_image_url(web_data), flag='property')
         save_image(path,image_name,get_detail_image_url( web_data),flag='detail')
     elif flag=="detail":
         save_image(path,image_name,get_detail_image_url( web_data),flag='detail')
-    else:
-        save_image(path,image_name,get_good_image_url( web_data),flag='nodetail')
+    elif flag=="goods":
+        save_image(path,image_name,get_good_image_url( web_data),flag='goods')
+    elif flag=="property":
+        save_image(path,image_name,get_property_image_url( web_data),flag='property')
     return
 
     
@@ -104,3 +117,4 @@ if __name__=="__main__":
     url="https://item.taobao.com/item.htm?id={}".format(id)
     dir_name=input(u'输入保存图片目录名称：')
     save_main(url,dir_name,'all')
+
