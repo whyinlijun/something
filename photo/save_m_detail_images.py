@@ -25,7 +25,7 @@
 '''
 
 import requests
-import json,re
+import json, re, os
 
 def get_m_dtail_images(num_id):
     url = 'https://h5api.m.taobao.com/h5/mtop.taobao.detail.getdesc/6.0/'
@@ -55,10 +55,28 @@ def get_m_dtail_images(num_id):
         images.append('https:'+re.search(re_compile, image)[1])
     return images
 
-
-
+def save_image(url, path , name=''):
+    extensions = '\.(jpg|gif|jpeg|bmp|png)'
+    if not os.path.exists(path):
+        os.makedirs(path)
+    extension = re.search(extensions, url).group(1)  if re.search(extensions, url) else 'no_ext'
+    file_name = os.path.join(path, name + '.' + extension)
+    with open(file_name, 'wb') as fs:
+        fs.write(requests.get(url, stream=True).content)
+        print('{} is download'.format(file_name))
 
 if __name__ == '__main__':
-    num_id = '563155760366'
-    a = get_m_dtail_images(num_id)
-    print(a)
+    #num_id = '563155760366'
+    #name = 'test'
+    num_id = input("请输入商品数字ID:")
+    name = input("商品名称设置：")
+    input_path = input("商品保存路径，回车默认为程序默认路径")
+    path = 'd:\\淘宝抓图\\' + name if not input_path else input_path
+    images_url = get_m_dtail_images(num_id)
+    image_xuhao = 1
+    for image_url in images_url:
+        str_xuhao = str(image_xuhao) if image_xuhao>9 else '0'+str(image_xuhao)
+        image_name = name + '_' + str_xuhao
+        save_image(image_url, path, image_name)
+        image_xuhao += 1
+
