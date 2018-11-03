@@ -79,7 +79,7 @@ def get_item_other_name(item_id):
 
 
 if __name__=='__main__':
-    item_id = '567069635897'
+    item_id = '551679569407'
     #item_id=input('item_id:')
     data = get_data(item_id)
     print_good_info(data)

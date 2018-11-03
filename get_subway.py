@@ -59,7 +59,7 @@ import openpyxl
 
 
 def openbrowser_login():
-    driver=webdriver.Chrome('./work/chromedriver')
+    driver=webdriver.Chrome('../chromedriver')
     driver.get('http://zhitongche.taobao.com/')
     while(True):
         if(len(driver.window_handles)>1):

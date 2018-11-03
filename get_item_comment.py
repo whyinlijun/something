@@ -23,7 +23,7 @@ ratetype 3 图片
 '''
 
 import requests
-import re , json
+import re , json , os ,time
 import sqlite3
 
 def get_comment(num_iid,rate_type=3):
@@ -158,11 +158,48 @@ class GetComment:
                 print("总计:", c['total'])
                 break
 
+    def save_image(self,picpath):
+        header = {
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36",
+        }
+        if self.pic_url:
+            ex_compile = '(jpg|gif|jpeg|bmp|png)'
+            try:
+                os.mkdir(picpath)
+            except Exception as e:
+                print(e)
+            image_xuhao = 1
+            for url in self.pic_url:
+                url = 'http:'+url[0][:-12]
+                print(url)
+                try:
+                    response = requests.get(url,stream = True ,headers = header)
+                    image = response.content
+                except:
+                    print('url ERROR!!!' % url)
+                    image_xuhao += 1
+                    continue
+                else:
+                    print('Image url:' + url)
+                    if re.search(ex_compile, url):
+                        ex_name = re.search(ex_compile, url).group(1)
+                    else:
+                        ex_name = 'jpg'
+                    strxuhao = str(image_xuhao) if image_xuhao >= 10 else '0' + str(image_xuhao)
+                    picname = picpath + '/' + strxuhao + '.' + ex_name
+                    with open(picname,'wb') as fs:
+                        fs.write(image)
+                    image_xuhao += 1
+                    time.sleep(3)
+
+
+
 
     def __call__(self):
         print(self.asia_name)
 
-
-b = GetComment(557946516364,'了')
-b.getComment()
-print(b.pic_url)
+if __name__ == '__main__':
+    good = GetComment(567069635897,'了')
+    good.getComment()
+    #print(good.pic_url)
+    good.save_image('/home/luck/下载/碎花裙')
