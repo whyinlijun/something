@@ -5,7 +5,7 @@
 输入网址，商品名称
 目录可以更改
 '''
-import re,os,sys
+import re, os. json
 import requests
 
 def getUrl(url):
@@ -52,7 +52,8 @@ def make_dir(path,subdir):
     except Exception as e:
         print(Exception,":",e)
     return
-    
+
+
 def save_image(path,image_name,image_list,flag='detail'):
     if flag != 'detail':
         make_dir(path + '/' + image_name, flag)
