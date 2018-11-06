@@ -21,7 +21,7 @@ https://detailskip.taobao.com/service/getData/1/p1/item/detail/sib.htm?itemId=56
 import requests, re, json, time
 import sqlite_console as sql_c
 
-IS_PRINT = True
+IS_PRINT = False
 
 def get_data(itemID):
     url = "https://tui.taobao.com/recommend"
@@ -65,19 +65,33 @@ def get_data(itemID):
     }
     return sale_detail
 
-def main():
-    sale_detail = get_data('558470001549')
-    data=[]
-    data.append((sale_detail['id'],
-          int(sale_detail['month_count']),
-          int(sale_detail['sale_count']),
-          int(sale_detail['favorite_count']),
-          time.strftime("%Y-%m-%d %H:%M:%S")
-          ))
-    zhang_wei_fu = ','.join(['?' for x in range(5)])
-    sql = "INSERT INTO count_items VALUES({})".format(zhang_wei_fu)
+def main(num_id):
     conn = sql_c.get_conn(sql_c.DB_FILE_PATH)
-    sql_c.insert_order(conn, sql, data)
+    #sql_c.init(conn)
+    sql = "SELECT * FROM count_items WHERE id = {} AND order_date = '{}'".format(num_id, time.strftime("%Y-%m-%d"))
+    result = sql_c.select_sql(conn, sql)
+    sale_detail = get_data(num_id)
+    if result:
+        print("距{},已售增加：{}件,今日收藏增加{}，月销量增加：{}，目前月售数量{}".format(
+            result[4],
+            int(sale_detail['sale_count'])-result[2],
+            int(sale_detail['favorite_count'])-result[3],
+            int(sale_detail['month_count'])-result[1],
+            int(sale_detail['month_count']
+        ))
+    else:
+        data=[]
+        data.append((str(sale_detail['id']),
+              int(sale_detail['month_count']),
+              int(sale_detail['sale_count']),
+              int(sale_detail['favorite_count']),
+              time.strftime("%Y-%m-%d")
+              ))
+        zhang_wei_fu = ','.join(['?' for x in range(5)])
+        sql = "INSERT INTO count_items VALUES({})".format(zhang_wei_fu)
+        sql_c.insert_order(conn, sql, data)
 
 if __name__ == "__main__":
-    main()
+    while True:
+        main('558470001549')
+        time.sleep(60*10)

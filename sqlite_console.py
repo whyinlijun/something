@@ -6,9 +6,9 @@
 
 '''
 
-import os, sqlite3
+import os, sqlite3, time
 
-DB_FILE_PATH = '/home/luck/test.db'
+DB_FILE_PATH = 'd://test.db'
 SHOW_SQL = True
 
 def get_conn(path=""):
@@ -38,6 +38,14 @@ def insert_order(conn, sql, values):
             c = conn.cursor()
             c.executemany(sql,values)
             conn.commit()
+
+def select_sql(conn, sql):
+    if sql is not None and sql != '':
+        with conn:
+            c = conn.cursor()
+            c.execute(sql)
+            return c.fetchone()
+
 
 def init(conn):
     create_sql_items = '''CREATE TABLE  IF NOT EXISTS `items` ( 
@@ -79,5 +87,8 @@ def main():
     #init(conn)
 
 if __name__ == "__main__":
-    main()
+    sql = "SELECT * FROM count_items WHERE id = {} AND order_date = '{}'".format('558470001549', time.strftime("%Y-%m-%d"))
+    print(sql)
+    conn = get_conn(DB_FILE_PATH)
+    print(select_sql(conn,sql))
 
