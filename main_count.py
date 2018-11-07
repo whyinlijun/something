@@ -13,7 +13,7 @@ def get_one(num_id,asia_name):
     result = c.select_db(sql, datas)
     if result:
         print("{}距{},已售增加：{}件,今日收藏增加{}，月销量增加：{}，目前月售数量{}".format(
-            asia_name+result[0][0],
+            asia_name+"\t"+result[0][0],
             result[0][4],
             int(sale_detail['sale_count'])-result[0][2],
             int(sale_detail['favorite_count'])-result[0][3],

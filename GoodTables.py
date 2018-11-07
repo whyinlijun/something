@@ -79,7 +79,7 @@ class GoodTables():
 
 if __name__ == "__main__":
     c = GoodTables()
-    c.run_once()
+    #c.run_once()
     #datas =(1,2,3,4,5)
     #sql = 'INSERT INTO items_data VALUES (?,?,?,?,?)'
     #c.execute_db(sql, datas)
@@ -90,5 +90,14 @@ if __name__ == "__main__":
     #datas = (time.strftime("%Y-%m-%d")+'%',)
     #for item in c.select_db(sql, datas):
         #print(item)
-    sql = "SELECT * FROM items_data"
-    print(c.select_db(sql))
+    sql = "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+    result = c.select_db(sql)
+    if result:
+        for table_name in result:
+            sql = "SELECT * FROM {}".format(table_name[0])
+            print(table_name[0])
+            for item in c.select_db(sql):
+                print(item)
+    else:
+        c.run_once()
+
