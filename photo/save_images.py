@@ -36,7 +36,10 @@ class SaveGoodsImages():
             re_compile = re.compile('auctionImages\s+:\s*\[(".*?")\]', re.S)
             g = re.search(re_compile, content).group(1)
             for i in g.split(','):
-                self.list_images.append('http:' + i[1:-1])
+                if 'http' not in i:
+                    self.list_images.append('https:' + i[1:-1])
+                else:
+                    self.list_images.append( i[1:-1])
             #分类图片
             re_compile = re.compile('background:url\((.*)\)')
             f = re.findall(re_compile, content)
@@ -64,7 +67,11 @@ class SaveGoodsImages():
         web = requests.get(url=url, params=params, headers=headers)
         data = json.loads(web.text)
         for image in data['data']['wdescContent']['pages']:
-            self.m_detail_images.append('https:' + re.search(re_compile, image)[1])
+            i_url = re.search(re_compile, image)[1]
+            if 'http' not in i_url:
+                self.m_detail_images.append('https:' + i_url )
+            else:
+                self.m_detail_images.append(i_url)
 
     def get_video(self):
         url = "http://h5api.m.taobao.com/h5/mtop.taobao.detail.getdetail/6.0/"
@@ -94,10 +101,13 @@ class SaveGoodsImages():
         extensions = '\.(jpg|gif|jpeg|bmp|png|mp4|mpeg|avi)'
         extension = re.search(extensions, url).group(1) if re.search(extensions, url) else 'no_ext'
         file_name = os.path.join(path, image_name + '.' + extension)
-        with open(file_name, 'wb') as fs:
-            fs.write(requests.get(url, stream=True).content)
-            if self.print_switch:
-                print('{} is download'.format(file_name))
+        try:
+            with open(file_name, 'wb') as fs:
+                fs.write(requests.get(url, stream=True).content)
+                if self.print_switch:
+                    print('{} is download'.format(file_name))
+        except:
+            print(url,'   is not download')
 
     def save_images(self, sub_path, images_url):
         path = os.path.join(self.path, sub_path)
@@ -111,7 +121,9 @@ class SaveGoodsImages():
             image_xuhao += 1
 
 if __name__ == "__main__":
-    sm = SaveGoodsImages("D://淘宝图片", '558470001549', '男马甲')
+    num_id = input('输入商品数字ID: ')
+    asia_name = input('输入商品别名:')
+    sm = SaveGoodsImages("D://淘宝图片", num_id, asia_name)
     sm.get_m_dtail_images()
     sm.getPcImages()
     sm.save_images('首图', sm.list_images)
