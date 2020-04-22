@@ -5,7 +5,7 @@
 输入网址，商品名称
 目录可以更改
 '''
-import re, os. json
+import re, os, json
 import requests
 
 def getUrl(url):
@@ -35,15 +35,18 @@ def get_property_image_url(web_data):
     return image_list
 
 def get_detail_image_url(web_data):
-    re_compile=re.compile(r"location.protocol.*?,",re.S)
-    url_compile=re.compile("\'(.*?)\'")
-    g=re.search(re_compile,web_data)
-    a=re.findall(url_compile,g.group())
-    dec_images=getUrl(a[0]+a[1])
+    re_compile = re.compile(r"location.protocol.*?,", re.S)
+    url_compile = re.compile("\'(.*?)\'")
+    g = re.search(re_compile, web_data)
+    a = re.findall(url_compile, g.group())
+    print(a)
+    dec_images = getUrl(a[0]+a[1])
     #两个地址结果是一样的
-    #desc_image=getUrl(a[0]+a[2])
-    image_compile=re.compile('(https://[^\s]*[jpg|gif|jpeg|bmp|png])"',re.I)
-    image_list=re.findall(image_compile,dec_images)
+    #desc_image = getUrl(a[0]+a[2])
+    image_compile = re.compile('(https://[^\s]*[jpg|gif|jpeg|bmp|png])"', re.I)
+    image_list = re.findall(image_compile, dec_images)
+    if not image_list:
+        image_list = re.findall(image_compile, input("请输入图片地址： "))
     return image_list
 
 def make_dir(path,subdir):
@@ -92,7 +95,7 @@ def save_html(filename,content):
 def save_main(url,image_name='default',flag='all',path=''):
     web_data=getUrl(url)
     if path == '':
-        path="/home/yinsir/下载/淘宝图片/"
+        path="D:///淘宝图片/"
     if os.path.exists(path):
         pass
     else:
